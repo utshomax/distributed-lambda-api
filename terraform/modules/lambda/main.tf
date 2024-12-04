@@ -117,6 +117,14 @@ resource "aws_lambda_permission" "api_gw" {
   source_arn    = "${aws_apigatewayv2_api.lambda_api.execution_arn}/*/*"
 }
 
+# Create zip file for Lambda
+data "archive_file" "lambda_zip" {
+  type        = "zip"
+  source_dir  = "../api_lens"
+  output_path = "bootstrap"
+  excludes    = ["README.md", "*.tf", "*.toml", "events/*"]
+}
+
 # Get current region
 data "aws_region" "current" {}
 
